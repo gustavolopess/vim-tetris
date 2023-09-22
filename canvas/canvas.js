@@ -193,8 +193,8 @@ class Canvas {
   }
   
   rotateBlock(block) {
-    if (this.canRotateBlock(block)) {
+    // if (this.canRotateBlock(block)) {
       block.rotateIt();      
-    }
+    // }
   }
 }
