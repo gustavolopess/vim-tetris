@@ -196,15 +196,25 @@ class Canvas {
 
   canRotateBlock(block) {
     const rotatedBlock = previewBlockRotation(block);
-    return rotatedBlock.blocks.reduce((acc, bl) => {
+    if (rotatedBlock == null) {
+      return true;
+    }
+    let canRotate = true;
+    for (const bl of rotatedBlock.blocks) {
       const blPos = bl.getPosition();
-      return acc && !this.isThereBlock(blPos.x, blPos.y);
-    }, true);
+      console.log(
+        `block(${blPos.x},${blPos.y}) / grid(${blPos.x},${blPos.y})=${
+          this.grid[blPos.x][blPos.y]
+        }`
+      );
+      canRotate = canRotate && !this.isThereBlock(blPos.x, blPos.y);
+    }
+    return canRotate;
   }
 
   rotateBlock(block) {
-    // if (this.canRotateBlock(block)) {
-    block.rotateIt();
-    // }
+    if (this.canRotateBlock(block)) {
+      block.rotateIt();
+    }
   }
 }
