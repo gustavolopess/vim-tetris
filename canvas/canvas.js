@@ -3,9 +3,11 @@ class Canvas {
     this.blocks = [];
     this.width = 400;
     this.height = 400;
+    this.heightOffset = 50;
     const gridLines = this.height / BASIC_BLOCK_SIZE;
     const gridColumns = this.width / BASIC_BLOCK_SIZE;
     this.grid = [];
+    this.pointsSystem = new PointsSystem();
 
     for (let i = 0; i < gridLines; i++) {
       const thisLine = [];
@@ -34,6 +36,10 @@ class Canvas {
         }
       }
     }
+
+    stroke(color('green'));
+    line(0, this.height, this.width, this.height);
+    stroke(color('black'));
   }
 
   generateBlock() {
@@ -42,15 +48,24 @@ class Canvas {
     return new blockConstructor(new p5.Vector(100, 0), this);
   }
 
-  checkForFilledLines() {
+  drawScoreboard() {
+    this.pointsSystem.drawScoreboard(
+      this.width - 50,
+      this.height + this.heightOffset / 2
+    );
+  }
+
+  checkForFilledLines(count) {
     for (let i = this.grid.length - 1; i >= 0; i--) {
       const isLineFilled = this.grid[i].reduce((acc, val) => {
         return acc && val != null;
       }, true);
       if (isLineFilled) {
         this.removeLine(i);
-        this.checkForFilledLines();
+        this.checkForFilledLines(count + 1);
         return;
+      } else if (count > 0) {
+        this.pointsSystem.addPoint(count);
       }
     }
   }
@@ -68,7 +83,7 @@ class Canvas {
   }
 
   create() {
-    createCanvas(this.width, this.height);
+    createCanvas(this.width, this.height + this.heightOffset);
   }
 
   getWidth() {
