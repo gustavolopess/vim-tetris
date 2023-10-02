@@ -202,11 +202,11 @@ class Canvas {
     let canRotate = true;
     for (const bl of rotatedBlock.blocks) {
       const blPos = bl.getPosition();
-      console.log(
-        `block(${blPos.x},${blPos.y}) / grid(${blPos.x},${blPos.y})=${
-          this.grid[blPos.x][blPos.y]
-        }`
-      );
+      // console.log(
+      //   `block(${blPos.x},${blPos.y}) / grid(${blPos.x},${blPos.y})=${
+      //     this.grid[blPos.x][blPos.y]
+      //   }`
+      // );
       canRotate = canRotate && !this.isThereBlock(blPos.x, blPos.y);
     }
     return canRotate;
